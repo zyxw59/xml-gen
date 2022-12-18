@@ -44,10 +44,17 @@ where
         while let Some(tokens) = parser.parse_next()? {
             output.extend(tokens);
         }
-        Ok(quote!({
-            use ::#xml_gen::BuildElement;
-            #output
-        }))
+        if !parser.tag_stack.is_empty() {
+            Err(Error::Token {
+                actual: None,
+                expected: "`<`, `{`, `#`, or string literal",
+            })
+        } else {
+            Ok(quote!({
+                use ::#xml_gen::BuildElement;
+                #output
+            }))
+        }
     }
 
     fn parse_next(&mut self) -> Result<Option<TokenStream>, Error> {

@@ -45,6 +45,8 @@ impl BuildElement for Vec<Node> {
     }
 }
 
+#[derive(Clone, Debug)]
+#[must_use = "ElementBuilder does nothing if its `finish` or `finish_self_closing` method is not called"]
 pub struct ElementBuilder<T> {
     parent: T,
     finish: fn(T, Element) -> T,
@@ -100,7 +102,10 @@ impl From<Element> for Node {
     }
 }
 
-impl<T> From<T> for Node where T: Into<Cow<'static, str>> {
+impl<T> From<T> for Node
+where
+    T: Into<Cow<'static, str>>,
+{
     fn from(val: T) -> Node {
         Node::Text(val.into())
     }
