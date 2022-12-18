@@ -40,7 +40,7 @@ where
             tokens: tokens.into_iter().peekable(),
         };
         let xml_gen = quote::format_ident!("xml_gen");
-        let mut output = quote!(::std::vec::Vec::<::#xml_gen::Node>::new());
+        let mut output = quote!(::#xml_gen::Document::new());
         while let Some(tokens) = parser.parse_next()? {
             output.extend(tokens);
         }
