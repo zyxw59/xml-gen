@@ -1,0 +1,4 @@
+/target
+/Cargo.lock
+/xml-macro/Cargo.lock
+/xml-macro/target
